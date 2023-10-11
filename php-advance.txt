@@ -1,0 +1,65 @@
+#Folder structure
+
+app/
+	classes
+	config
+	controllers
+	functions/
+		helper.php
+	models
+	routing
+bootstrap/
+	cache
+public/
+	index.php
+resources/
+	assets/
+		css
+		imgs
+		js
+		sass
+	views
+-----------------------------------------------------------------------------------------------------------------------------------
+#Packagist
+packagist.org->
+composer require vlucas/phpdotenv
+-----------------------------------------------------------------------------------------------------------------------------------
+#Steps
+1 - create ".env" -> setup APP_NAME , APP_DEVELOPER, APP_ENV
+2 - create "_env.php" in config -> Define APP_ROOT -> require_once APP_ROOT . "/vendor/autoload.php";
+3 - create innit
+4 - session starts
+5- create routing system -> composer require altorouter/altorouter -> create ".htaccess"
+6- create routeDispatcher
+7 - use Blade -> create "view"
+9- Illuminate OMR
+10 - create database
+11 - create database credentials at ".env"
+12 - use in Database.php -> use Illuminate\Database\Capsule\Manager as Capsule; 
+13 - new Capsule in Database.php
+	$capsule = new Capsule();
+
+        $capsule->addConnection([
+            'driver' => getenv("DB_DRIVER"),
+            'host' => getenv("DB_HOST"),
+            'database' => getenv("DB_NAME"),
+            'username' => getenv("DB_USER"),
+            'password' => getenv("DB_PASS"),
+            'charset' => "utf8",
+            'collation' => "utf8-unicode_ci",
+            'prefix' => ""
+        ]);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+14 - install PHP mailer
+15 - create mail credentials
+15 - setup datas->create setUp()-> setup mail data, mail type and from
+16 - create send method 
+Optional step - can use APP_ENV = production to only show success message
+17 - create make fnc in helpers.php -> extract, ob_start
+18 - flip woops
+19 - create ErrorHandler.php in classes -> create handleErrors method
+20 - create route for products (Route->controllers, methods-> model or views)
+21 - create layout folder in Views -> Create master layout
+22 - yield 
+23 - create 'asset' in 'helpers'

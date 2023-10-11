@@ -1,0 +1,30 @@
+.sans {
+  font-family: sans-serif !important;
+}
+.text-bluen {
+  color: #15b2d5 !important;
+}
+.bg-bluen {
+  background-color: #15b2d5 !important;
+}
+.btn-bluen {
+  background-color: #15b2d5 !important;
+  border-radius: 5px;
+  color: white;
+  margin-top: 5px;
+}
+.nav-fix {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+.dropdown-menu .dropdown-item:hover {
+  background-color: #04a1c4 !important;
+}
+.logo {
+  color: #15b2d5 !important;
+  font-size: 15px;
+  background: white;
+  padding: 5px;
+  border-radius: 100%;
+}
