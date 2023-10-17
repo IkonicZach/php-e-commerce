@@ -30,7 +30,7 @@
  * revoke access to your app and run the script again.
  */
 
-namespace \PHPMailer;
+namespace PHPMailer\PHPMailer;
 
 /**
  * Aliases for League Provider Classes

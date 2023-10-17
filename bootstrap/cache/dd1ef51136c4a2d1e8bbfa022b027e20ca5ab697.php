@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>">
+    <link rel="Shortcut icon" href="<?php echo e(asset('imgs/favicon.ico')); ?>">
     <title><?php echo $__env->yieldContent('title'); ?></title>
 </head>
 
