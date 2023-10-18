@@ -119,4 +119,11 @@ Optional step - can use APP_ENV = production to only show success message
 27 - create CSRFToken.php in classes -> create _token, checkToken 
 28 - create Redirect.php in classes -> create to, back
 29 - create UploadFile.php in classes -> create setName, getPath, checkSize, isImage, move
-30 - create ValidateRequest.php in classes -> create unique, required, minLength, maxLength, string, mixed
+30 - create ValidateRequest.php in classes -> create unique, required, minLength, maxLength, string, number, mixed
+31 - create errors and error messages array
+32 - create setError, hasError, getError
+33 - create chcekValid,  doValid
+34 - create Category class in Models 
+35 - create $cat = Category::all(); and render with view in CategoryController -> add $data in make() in helpers.php
+36 - create ValidateRequests in store() of CategoryController
+37 - create slug() in helpers.php

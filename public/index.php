@@ -8,9 +8,30 @@ use Whoops\Run;
 
 require_once "../bootstrap/init.php";
 
-$validator = new ValidateRequest();
-$con = $validator->mixed("email", "1231@@\$abcde" , "4");
-var_dump($con);
+// $org = "I @Am @Not @A #God";
+// $var = "local";
+// echo slug($org);
+
+// $post = [
+//     "name" => "GonGon",
+//     "age" => 100,
+//     "email" => "gongon@gmail.com"
+// ];
+
+// $policy = [
+//     "name" => ["string" => true, "minLength" => 4],
+//     "age" => ["number" => true, "minLength" => 2, "maxLength" => 2],
+//     "email" => ["email" => true, "maxLength" => 30]
+// ];
+
+// $validator = new ValidateRequest();
+// $validator->checkValid($post, $policy);
+
+// if ($validator->hasError()) {
+//     beautify($validator->getError());
+// }else{
+//     echo "Valid!!!!!";
+// }
 
 // Session::remove("name");
 // Session::add("name", "Pisi");

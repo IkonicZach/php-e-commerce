@@ -7,26 +7,47 @@ use App\Classes\Request;
 use App\Classes\Session;
 use App\Classes\Redirect;
 use App\Classes\UploadFile;
+use App\Classes\ValidateRequest;
 use App\Controllers\BaseController;
+use App\Models\Category;
 
 class CategoryController extends BaseController
 {
     public function index()
     {
-        view("admin/category/create");
+        $cats = Category::all();
+        view("admin/category/create", compact("cats"));
     }
     public function store()
     {
         $post = Request::get("post");
         if (CSRFToken::checkToken($post->token)) {
-            // Session::flash("sus_message","Token confirmed");
-            // Redirect::back();
-            beautify(Request::get("file"));
-            echo "<hr>";
-            $upload = new UploadFile();
-            $upload->move(Request::get("file"));
+            $rules = [
+                "name" => ["required" => true, "minLength" => "4", "unique" => "categories"]
+            ];
+            $validator = new ValidateRequest();
+            $validator->checkValid($post, $rules);
+            if ($validator->hasError()) {
+                $cats = Category::all();
+                $errors = $validator->getError();
+                view("admin/category/create", compact("cats", "errors"));
+            } else {
+                $slug = slug($post->name);
+
+                $con = Category::create([
+                    "name" => $post->name,
+                    "slug" => $slug
+                ]);
+
+                if ($con){
+                    $cats = Category::all();
+                    $success = "Created successfully!";
+                    view("admin/category/create", compact("cats", "success"));
+                }
+                else
+                    echo "Creation failed!";
+            }
         } else {
-            Session::flash("err_message", "Token blank!!");
             Redirect::back();
         }
     }

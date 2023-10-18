@@ -9,8 +9,9 @@ function view($path, $data = [])
 
     $blade = new Blade($view, $cache);
 
-    echo $blade->view()->make($path)->render();
+    echo $blade->view()->make($path, $data)->render();
 }
+
 function make($filename, $data)
 {
     extract($data);
@@ -25,6 +26,7 @@ function make($filename, $data)
 
     return $content;
 }
+
 function beautify($data)
 {
     echo "<pre>" . print_r($data, true) . "</pre>";
@@ -33,4 +35,11 @@ function beautify($data)
 function asset($link)
 {
     echo URL_ROOT . '/assets/' . $link;
+}
+
+function slug($value)
+{
+    $value = preg_replace('/[^'.preg_quote('_').'\pL\pN\s]+/u', "", mb_strtolower($value));
+    $value = preg_replace('/[ _]+/u', '-', $value);
+    return $value;
 }
