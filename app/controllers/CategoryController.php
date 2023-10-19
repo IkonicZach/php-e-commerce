@@ -6,7 +6,6 @@ use App\Classes\CSRFToken;
 use App\Classes\Request;
 use App\Classes\Session;
 use App\Classes\Redirect;
-use App\Classes\UploadFile;
 use App\Classes\ValidateRequest;
 use App\Controllers\BaseController;
 use App\Models\Category;
@@ -15,9 +14,12 @@ class CategoryController extends BaseController
 {
     public function index()
     {
-        $cats = Category::all();
-        view("admin/category/create", compact("cats"));
+        $categories = Category::all()->count();
+        list($cats, $pages) = paginate(3, $categories, new Category);
+        $cats = json_decode(json_encode($cats));
+        view("admin/category/create", compact("cats", "pages"));
     }
+
     public function store()
     {
         $post = Request::get("post");
@@ -39,16 +41,27 @@ class CategoryController extends BaseController
                     "slug" => $slug
                 ]);
 
-                if ($con){
+                if ($con) {
                     $cats = Category::all();
                     $success = "Created successfully!";
                     view("admin/category/create", compact("cats", "success"));
-                }
-                else
+                } else
                     echo "Creation failed!";
             }
         } else {
             Redirect::back();
+        }
+    }
+
+    public function delete($id)
+    {
+        $con = Category::destroy($id);
+        if ($con) {
+            Session::flash("del_success", "Category deleted Successfully!");
+            Redirect::to("/admin/category/create");
+        } else {
+            Session::flash("del_fail", "Category deletion failed! Try again.");
+            Redirect::to("/admin/category/create");
         }
     }
 }

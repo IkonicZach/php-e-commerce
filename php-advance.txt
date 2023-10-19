@@ -127,3 +127,9 @@ Optional step - can use APP_ENV = production to only show success message
 35 - create $cat = Category::all(); and render with view in CategoryController -> add $data in make() in helpers.php
 36 - create ValidateRequests in store() of CategoryController
 37 - create slug() in helpers.php
+38 - create route for category deletion
+39 - create delete method in CategoryController
+40 - composer require nesbot/carbon
+41 - create paginate method in helpers.php
+42 - fix index method of CategoryController
+43 - add pages in create.blade.php

@@ -3,10 +3,13 @@
 use App\Classes\Mail;
 use App\Classes\Session;
 use App\Classes\ValidateRequest;
+use App\Controllers\CategoryController;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
 require_once "../bootstrap/init.php";
+
+// paginate(3, 9, "categories", new CategoryController());
 
 // $org = "I @Am @Not @A #God";
 // $var = "local";
