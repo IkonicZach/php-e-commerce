@@ -75,10 +75,10 @@
                         <label for="editName" class="sans mt-3">Category name</label>
                         <input type="text" id="editName" class="form-control sans mb-3" name="editName" placeholder="Enter category name">
 
-                        <input type="hidden" name="editToken" value="{{\App\Classes\CSRFToken::_token()}}">
-                        <input type="hidden" name="editId">
+                        <input type="hidden" name="editToken" id="editToken" value="{{\App\Classes\CSRFToken::_token()}}">
+                        <input type="hidden" name="editId" id="editId">
 
-                        <button onclick="startEdit()" class="btn btn-bluen float-end sans" type="submit" name="submit">Confirm changes</button>
+                        <button onclick="startEdit(event)" class="btn btn-bluen float-end sans" type="submit" name="submit">Confirm changes</button>
                     </div>
                 </form>
                 <!-- Edit form ends here -->
@@ -100,12 +100,27 @@
 
     function startEdit(e) {
         e.preventDefault();
-        $name = $("#editName").val();
-        $token = $("#editToken").val();
-        $id = $("#editId").val();
-
-        console.log("Category name: " + $name + "<br>Token: " + $token + "<br>Id: " + $id);
-        
+        name = $("#editName").val();
+        token = $("#editToken").val();
+        id = $("#editId").val();
+        $("#CatEditModel").modal("hide");
+        $.ajax({
+            type: "POST",
+            url: "/admin/category/" + id + "/update",
+            data: {
+                name: name,
+                token: token,
+                id: id
+            },
+            success: function(result) {
+                window.location.href = "/admin/category/create";
+            },
+            error: function(response) {
+                var str = "";
+                var response = (JSON.parse(response.responseText));
+                alert(response.name);
+            }
+        });
     }
 </script>
 

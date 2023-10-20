@@ -133,3 +133,4 @@ Optional step - can use APP_ENV = production to only show success message
 41 - create paginate method in helpers.php
 42 - fix index method of CategoryController
 43 - add pages in create.blade.php
+44 - create delete and edit

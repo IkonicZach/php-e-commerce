@@ -64,4 +64,32 @@ class CategoryController extends BaseController
             Redirect::to("/admin/category/create");
         }
     }
+
+    public function update()
+    {
+        $post = Request::get("post");
+
+        if (CSRFToken::checkToken($post->token)) {
+            $rules = [
+                "name" => [
+                    "required" => true,
+                    "unique" => "categories",
+                    "minLength" => "4"
+                ]
+            ];
+            $validator = new ValidateRequest();
+            $validator->checkValid($post, $rules);
+
+            if ($validator->hasError()) {
+                header('HTTP/1.1 422 Validation Error', true, 422);
+                echo json_encode($validator->getError());
+            } else {
+                Category::where("id", $post->id)->update(["name" => $post->name]);
+                echo json_encode("Updated successfully!");
+            }
+        } else {
+            header('HTTP/1.1 422 Token Error', true, 422);
+            echo json_encode(["error" => "Invalid token"]);
+        }
+    }
 }
