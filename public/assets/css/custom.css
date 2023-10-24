@@ -6,9 +6,14 @@ nav a:hover {
 }
 .fa-edit,
 .fa-minus-circle,
+.fa-plus,
 .btn-bluen,
+.btn-cancel,
 .dropdown-item {
   transition: 0.3s !important;
+}
+small a i:hover p {
+  display: block !important;
 }
 .text-bluen {
   color: #15b2d5 !important;
@@ -26,6 +31,19 @@ nav a:hover {
 .btn-bluen:hover {
   color: #04a1c4 !important;
   background-color: white !important;
+}
+.btn-cancel {
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.btn-cancel:hover {
+  color: red !important;
+  border-color: red !important;
+}
+.border-bluen {
+  border: 1px solid #15b2d5 !important;
 }
 .nav-fix {
   position: fixed !important;
@@ -78,6 +96,10 @@ a {
   background-color: rgb(220, 53, 69);
   color: white !important;
 }
+.fa-plus:hover {
+  background-color: #15b2d5 !important;
+  color: white !important;
+}
 .list-group div:hover {
   background-color: #f2f2f2 !important;
 }
@@ -112,4 +134,33 @@ a {
 .pagination li:hover {
   background-color: #15b2d5 !important;
   color: white !important;
+}
+.grid-items {
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+.grid-items:hover {
+  border: 1px solid #15b2d5 !important;
+  /* transform: scale(1.05); */
+}
+.grid-items-image {
+  position: relative;
+  width: auto !important;
+  height: 200px !important;
+  background-position: center;
+  background-size: cover;
+}
+.grid-items-number {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  text-align: center;
+  color: white;
+  background-color: #15b2d5;
+  border-radius: 100%;
+}
+.grid-items-category {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }

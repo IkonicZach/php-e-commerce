@@ -1,4 +1,4 @@
-<div class="container-fluid nav-fix">
+<div class="container-fluid nav-fix p-0" style="z-index: 1;">
     <nav class="navbar navbar-expand-lg w-100">
         <div class="container d-flex justify-content-between">
             <div class="left d-inline-flex">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="right d-inline-flex">
-                <form class="d-inline-flex" role="search">
+                <form class="d-inline-flex m-0" role="search">
                     <input class="form-control sans me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-bluen mt-0" type="submit"><i class="fa fa-search"></i></button>
                 </form>

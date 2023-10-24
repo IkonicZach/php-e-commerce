@@ -6,6 +6,7 @@ class UploadFile
 {
     protected $filename;
     protected $maxSize = 2097152;
+    protected $path;
 
     public function getName($file, $name = "")
     {
@@ -19,9 +20,9 @@ class UploadFile
         return "{$name}-{$hash}.{$ex}";
     }
 
-    public function getPath($file)
+    public function getPath()
     {
-        return $file->file->tmp_name;
+        return $this->path;
     }
 
     public function checkSize($file)
@@ -43,13 +44,19 @@ class UploadFile
         if ($this->isImage($file)) {
             if (!$this->checkSize($file)) {
                 $path = APP_ROOT . "/public/assets/uploads/";
+                if (!is_dir($path)) {
+                    mkdir($path);
+                }
+                $this->path = URL_ROOT . "/assets/uploads/" . $name;
                 $filePath = $path . $name;
                 return move_uploaded_file($file->file->tmp_name, $filePath);
             } else {
-                return "File size limit exceeded!";
+                // return "File size limit exceeded!";
+                return false;
             }
         } else {
-            return "Unacceptable file type!";
+            // return "Unacceptable file type!";
+            return false;
         }
     }
 }
