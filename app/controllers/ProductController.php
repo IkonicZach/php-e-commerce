@@ -16,8 +16,10 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        $products = Product::all();
-        view("admin/product/home", compact("products"));
+        $prd = Product::all();
+        list($products, $pages) = paginate(9, count($prd), new Product());
+        $products = json_decode(json_encode($products));
+        view("admin/product/home", compact("products", "pages"));
     }
 
     public function create()
@@ -61,25 +63,29 @@ class ProductController extends BaseController
 
                         if ($product->save()) {
                             $products = Product::all();
-                            Session::flash("pcs", "Product created successfully!");
+                            Session::flash("flash", "Product created successfully!");
                             Redirect::to("/admin/product/home", compact("products"));
+                            exit;
                         } else {
                             $errors = "Uploading failed!";
                             $cats = Category::all();
                             $subcats = SubCategory::all();
                             view("admin/product/create", compact("cats", "subcats", "errors"));
+                            exit;
                         }
                     } else {
                         $errors = ["Uploading failed! Please check your image size and file type!"];
                         $cats = Category::all();
                         $subcats = SubCategory::all();
                         view("admin/product/create", compact('cats', 'subcats', 'errors'));
+                        exit;
                     }
                 } else {
                     $errors = ["Please upload an image!"];
                     $cats = Category::all();
                     $subcats = SubCategory::all();
                     view("admin/product/create", compact('cats', 'subcats', 'errors'));
+                    exit;
                 }
             }
         } else {
@@ -87,6 +93,94 @@ class ProductController extends BaseController
             $cats = Category::all();
             $subcats = SubCategory::all();
             view("admin/product/create", compact('cats', 'subcats', 'errors'));
+            exit;
+        }
+    }
+
+    public function edit($id)
+    {
+        $cats = Category::all();
+        $subcats = SubCategory::all();
+        $product = Product::where("id", $id)->first();
+        view('admin/product/edit', compact('product', 'cats', 'subcats'));
+    }
+
+    public function update($id)
+    {
+        $post = Request::get('post');
+        $file = Request::get('file');
+        $fPath = "";
+
+        if (CSRFToken::checkToken($post->token)) {
+            $rules = [
+                "name" => ["required" => true, "minLength" => 4, "maxLength" => 30],
+                "description" => ["required" => true, "minLength" => 10, "maxLength" => 1000]
+            ];
+            $validator = new ValidateRequest();
+            $validator->checkValid($post, $rules);
+
+            if ($validator->hasError()) {
+                Session::flash("flash_fail", "Product updating failed!");
+                $cats = Category::all();
+                $subcats = SubCategory::all();
+                $errors = $validator->getError();
+                $product = Product::where('id', $id)->first();
+                view('admin/product/edit', compact('errors', 'product', 'cats', 'subcats'));
+            } else {
+                if (empty($file->file->name)) {
+                    $fPath = $post->old_img;
+                } else {
+                    $upload = new UploadFile();
+                    if ($upload->move($file)) {
+                        $fPath = $upload->getPath();
+                    } else {
+                        $cats = Category::all();
+                        $subcats = SubCategory::all();
+                        $errors = ["fme" => "File moving failed!"];
+                        $product = Product::where('id', $id)->first();
+                        view('admin/product/edit', compact('errors', 'product', 'cats', 'subcats'));
+                        exit;
+                    }
+                }
+
+                $product = Product::where('id', $id)->first();
+                $product->name = $post->name;
+                $product->price = $post->price;
+                $product->cat_id = $post->cat_id;
+                $product->sub_cat_id = $post->sub_cat_id;
+                $product->description = $post->description;
+                $product->image = $fPath;
+
+                if ($product->update()) {
+                    Session::flash("flash", "Product updated successfully!");
+                    Redirect::to("/admin/product/home");
+                    exit;
+                } else {
+                    $cats = Category::all();
+                    $subcats = SubCategory::all();
+                    $errors = ["uf" => "Updating failed!"];
+                    $product = Product::where('id', $id)->first();
+                    view('admin/product/edit', compact('errors', 'product', 'cats', 'subcats'));
+                    exit;
+                }
+            }
+        } else {
+            Session::flash("puf", "Product updating failed!");
+            Redirect::to("/admin/product/" . $id . "/edit");
+            beautify($post);
+            beautify($file);
+        }
+    }
+
+    public function delete($id)
+    {
+        $con = Product::destroy($id);
+        if ($con) {
+            Session::flash("flash", "Product deleted Successfully!");
+            Redirect::to("/admin/product/home");
+        } else {
+            Session::flash("flash", "Product deletion failed! Try again.");
+            Redirect::to("/admin/product/home");
         }
     }
 }

@@ -61,7 +61,7 @@
 
                 <input type="hidden" name="token" value="{{\App\Classes\CSRFToken::_token()}}">
 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end mt-3">
                     <button class="btn btn-cancel sans" style="margin-right: 5px;" type="reset" name="submit">Reset</button>
                     <button class="btn btn-bluen sans" type="submit" name="submit">Create</button>
                 </div>

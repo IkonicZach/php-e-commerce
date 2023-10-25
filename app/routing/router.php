@@ -36,8 +36,11 @@ $router->map("GET", "/admin/product/create", "App\Controllers\ProductController@
 
 $router->map("POST", "/admin/product/create", "App\Controllers\ProductController@store", "Product Store");
 
-$router->map("GET", "/admin/product/update", "App\Controllers\ProductController@create", "Product Update");
+$router->map("GET", "/admin/product/[i:id]/edit", "App\Controllers\ProductController@edit", "Product Edit");
 
+$router->map("POST", "/admin/product/[i:id]/edit", "App\Controllers\ProductController@update", "Product Update");
+
+$router->map("GET", "/admin/product/[i:id]/delete", "App\Controllers\ProductController@delete", "Product Delete");
 // Products Routes Ends
 
 new RouteDispatcher($router);

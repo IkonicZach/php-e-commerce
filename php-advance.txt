@@ -25,28 +25,28 @@ packagist.org->
 composer require vlucas/phpdotenv
 -----------------------------------------------------------------------------------------------------------------------------------
 #Steps
-1 - create ".env" -> setup APP_NAME , APP_DEVELOPER, APP_ENV
-2 - create "_env.php" in config -> Define APP_ROOT (define("APP_ROOT", realpath(__DIR__ . "/../"));) -> require_once APP_ROOT . "/vendor/autoload.php"; -> $dotEnv = Dotenv\Dotenv::createUnsafeImmutable(APP_ROOT); -> $dotEnv->load();
-3 - create init -> move define from _env to init -> require_once APP_ROOT . "/app/config/_env.php";
+1 - create '.env' -> setup APP_NAME , APP_DEVELOPER, APP_ENV
+2 - create '_env.php' in config -> Define APP_ROOT (define('APP_ROOT', realpath(__DIR__ . '/../'));) -> require_once APP_ROOT . '/vendor/autoload.php'; -> $dotEnv = Dotenv\Dotenv::createUnsafeImmutable(APP_ROOT); -> $dotEnv->load();
+3 - create init -> move define from _env to init -> require_once APP_ROOT . '/app/config/_env.php';
 4 - if (!isset($_SESSION)) session_start();
-5 - create routing system -> composer require altorouter/altorouter -> create ".htaccess"
+5 - create routing system -> composer require altorouter/altorouter -> create '.htaccess'
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule . index.php [L]
-6 - create router.php -> "require_once APP_ROOT . "/app/routing/router.php";" in init 
+6 - create router.php -> 'require_once APP_ROOT . '/app/routing/router.php';' in init 
 	$router = new Altorouter();
-	$router->setBasePath("/ecommence/public");
-	$router->("GET", "/", "App\Controllers\BaseController@show", "Home Route");
+	$router->setBasePath('/ecommence/public');
+	$router->('GET', '/', 'App\Controllers\BaseController@show', 'Home Route');
 	invoke RouteDispatcher($router);
 7 - create RouteDispatcher -> check if match or not
-	list($controller,$method) = explode("@", $this->match["target"]);
+	list($controller,$method) = explode('@', $this->match['target']);
 	if(is_callable([new this->controller, this->method]))
-		call_user_func_array([new $this->controller, $this->method], $this->match["params"]);
+		call_user_func_array([new $this->controller, $this->method], $this->match['params']);
 8 - create BaseController 
 9 - create new object in composer to autoload
-	"autoload": {
-		"psr-4": {
-			"App\\": "app"
+	'autoload': {
+		'psr-4': {
+			'App\\': 'app'
 		}
 	}
 	composer dump-autoload -o
@@ -54,32 +54,32 @@ composer require vlucas/phpdotenv
 11 - philo/laravel-blade ->
 12 - create view function in helper.php
 	view($path, $data=[]){
-		$view = APP_ROOT . "\\resources\\views\\";
-    	$cache = APP_ROOT . "\\bootstrap\\cache\\";
+		$view = APP_ROOT . '\\resources\\views\\';
+    	$cache = APP_ROOT . '\\bootstrap\\cache\\';
 	    $blade = new Blade($view, $cache);
 	    echo $blade->view()->make($path)->render();
 	}
 13. create welcome.blade.php
 14. autoload file
-	"files": [
-		"app/functions/helper.php"
+	'files': [
+		'app/functions/helper.php'
 	]
 9 - Illuminate OMR
 10 - create database
-11 - create database credentials at ".env"
+11 - create database credentials at '.env'
 12 - use in Database.php -> use Illuminate\Database\Capsule\Manager as Capsule; 
 13 - new Capsule in Database.php
 	$capsule = new Capsule();
 
         $capsule->addConnection([
-            'driver' => getenv("DB_DRIVER"),
-            'host' => getenv("DB_HOST"),
-            'database' => getenv("DB_NAME"),
-            'username' => getenv("DB_USER"),
-            'password' => getenv("DB_PASS"),
-            'charset' => "utf8",
-            'collation' => "utf8-unicode_ci",
-            'prefix' => ""
+            'driver' => getenv('DB_DRIVER'),
+            'host' => getenv('DB_HOST'),
+            'database' => getenv('DB_NAME'),
+            'username' => getenv('DB_USER'),
+            'password' => getenv('DB_PASS'),
+            'charset' => 'utf8',
+            'collation' => 'utf8-unicode_ci',
+            'prefix' => '
         ]);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
@@ -88,21 +88,21 @@ composer require vlucas/phpdotenv
 15 - create mail credentials MAIL_DRIVER, SMTP_HOST, SMTP_PORT, EMAIL_USERNAME, EMAIL_PASSWORD, MAIL_ENCRYPTION, ADMIN_EMAIL
 16 - create Mail.php in classes 
 17 - setup datas->create setUp()-> setup mail data, mail type and from
-		if (getenv("APP_ENV") === "local") {
+		if (getenv('APP_ENV') === 'local') {
             $this->mail->SMTPDebug = 2; //Mail credentials
         }
         $this->mail->isSMTP();
-        $this->mail->Host = getenv("SMTP_HOST");
+        $this->mail->Host = getenv('SMTP_HOST');
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = getenv("EMAIL_USERNAME");
-        $this->mail->Password = getenv("EMAIL_PASSWORD");
-        $this->mail->Port = getenv("SMTP_PORT");
+        $this->mail->Username = getenv('EMAIL_USERNAME');
+        $this->mail->Password = getenv('EMAIL_PASSWORD');
+        $this->mail->Port = getenv('SMTP_PORT');
 
         $this->mail->isHTML(true);
         $this->mail->SingleTo = true;
 
-        $this->mail->From = getenv("ADMIN_EMAIL");
-        $this->mail->FromName = "HEHEHEHE";
+        $this->mail->From = getenv('ADMIN_EMAIL');
+        $this->mail->FromName = 'HEHEHEHE';
 16 - use setUp in constructor, create send method 
 Optional step - can use APP_ENV = production to only show success message
 17 - create make fnc in helpers.php -> extract, ob_start
