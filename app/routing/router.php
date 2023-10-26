@@ -8,6 +8,9 @@ $router = new AltoRouter();
 // $router->setBasePath("/ecommence/public");
 
 $router->map("GET", "/", "App\Controllers\IndexController@show", "Home Route");
+$router->map("POST", "/cart", "App\Controllers\IndexController@cart", "Cart Route");
+$router->map("GET", "/cart", "App\Controllers\IndexController@showCart", "Show Cart Route");
+
 //ADMIN ROUTE
 $router->map("GET", "/admin" , "App\Controllers\AdminController@index", "Admin Home");
 

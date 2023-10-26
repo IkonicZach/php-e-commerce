@@ -29,9 +29,21 @@
             <div class="d-flex py-2 align-items-center justify-content-between">
                 <a href="/admin/category/all" class="sans"><?php echo e($cat->name); ?></a>
                 <span>
-                    <small><a href="#"><i onclick="showSubCatModal('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-plus text-bluen p-2 border-bluen rounded-circle"></i></a></small>
-                    <small><a href="#"><i onclick="fun('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"></i></a></small>
-                    <small><a href="/admin/category/<?php echo e($cat->id); ?>/delete"><i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"></i></a></small>
+                    <small>
+                        <a href="#" class="parent">
+                            <i onclick="showSubCatModal('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-plus text-bluen p-2 border-bluen rounded-circle"><span class="hidden">Sub-categories</span></i>
+                        </a>
+                    </small>
+                    <small>
+                        <a href="#" class="parent">
+                            <i onclick="fun('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                        </a>
+                    </small>
+                    <small>
+                        <a href="/admin/category/<?php echo e($cat->id); ?>/delete" class="parent">
+                            <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
+                        </a>
+                    </small>
                 </span>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -47,8 +59,16 @@
             <div class="d-flex py-2 align-items-center justify-content-between">
                 <a href="/admin/category/all" class="sans"><?php echo e($cat->name); ?></a>
                 <span>
-                    <small><a href="#"><i onclick="subCatEdit('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"></i></a></small>
-                    <small><a href="/admin/subcategory/<?php echo e($cat->id); ?>/delete"><i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"></i></a></small>
+                    <small>
+                        <a href="#" class="parent">
+                            <i onclick="fun('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                        </a>
+                    </small>
+                    <small>
+                        <a href="/admin/category/<?php echo e($cat->id); ?>/delete" class="parent">
+                            <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
+                        </a>
+                    </small>
                 </span>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -94,7 +114,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content p-3">
             <div class="modal-header">
-                <h4 class="modal-title sans" id="exampleModalLabel">Edit <span class="sans text-bluen">category</span></h4>
+                <h4 class="modal-title sans" id="exampleModalLabel">Create a <span class="sans text-bluen">sub-category</span></h4>
                 <button type="button" class="close sans" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -16,10 +16,11 @@ class ProductController extends BaseController
 {
     public function index()
     {
+        $cats = Category::all();
         $prd = Product::all();
         list($products, $pages) = paginate(9, count($prd), new Product());
         $products = json_decode(json_encode($products));
-        view("admin/product/home", compact("products", "pages"));
+        view("admin/product/home", compact("products", "pages", "cats"));
     }
 
     public function create()

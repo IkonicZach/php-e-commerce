@@ -1,4 +1,13 @@
 <style>
+    .col-md-10 .horizontal-list {
+        border-top-left-radius: 0 !important;
+    }
+
+    .d-flex .card {
+        border-top-right-radius: 0% !important;
+        border-bottom-right-radius: 0% !important;
+    }
+
     .navbar {
         background-color: #15b2d5;
     }
@@ -12,39 +21,126 @@
     <div class="d-flex">
         <div class="card col-md-2 p-4 border rounded">
             <div class="card-header sans">
-                <h5 class="m-0">Browse by</h5>
+                <h6 class="m-0"><i class="fa-solid fa-tags"></i> Browse by</h6>
             </div>
             <ul class="list-group list-group-flush">
+                @foreach ($cats as $cat)
                 <li class="list-group-item">
-                    <a href="#">A category</a>
+                    <a href="#">{{$cat->name}}</a>
                 </li>
+                @endforeach
             </ul>
         </div>
         <section class="col-md-10">
             @include("layout.horizontal_sidebar")
             <div class="px-5 py-3">
-                <h2>All products</h2>
                 <div class="row">
-                    @foreach($products as $product)
+                    <h2 class="header">Featured <i class="fa-solid fa-award"></i></h2>
+                    @foreach($featured as $product)
                     <div class="col-md-4 grid-items border p-4">
                         <div class="grid-items-image" style="background-image: url('{{$product->image}}');">
-                            <p class="grid-items-number sans" style="width: 35px; height: 35px; padding: 0.35rem;">{{$product->id}}</p>
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                             <b>
                                 <p class="sans m-0">{{$product->name}}</p>
                             </b>
-                            <p class="sans m-0">${{$product->price}}</p>
+                            <p class="m-0" style="font-family: Baumans;">${{$product->price}}</p>
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
-                            <small><a href="/admin/product/id/edit"><i onclick="" class="fa fa-angles-right text-warning p-2 border border-warning rounded"> <span class="sans fw-normal">View</span></i></a></small>
-                            <small><a href="/admin/product/id/delete"><i class="fa fa-cart-plus text-danger p-2 border border-danger rounded"> <span class="sans fw-normal">Add</span></i></a></small>
+                        <div class="d-flex justify-content-evenly mt-3">
+                            <small>
+                                <a class="parent">
+                                    <i class="fa fa-angles-right text-warning p-2 border border-warning rounded-circle"> <span class="sans hidden">View details</span></i>
+                                </a>
+                            </small>
+                            <small>
+                                <a class="parent">
+                                    <i onclick="addToCart('{{$product->id}}')" class="fa fa-cart-plus text-danger p-2 border border-danger rounded-circle"> <span class="sans hidden">Add to cart</span></i>
+                                </a>
+                            </small>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
+
+            <div class="px-5 py-3">
+                <div class="row">
+                    <h2 class="header">All</h2>
+                    @foreach($products as $product)
+                    <div class="col-md-4 grid-items border p-4">
+                        <div class="grid-items-image" style="background-image: url('{{$product->image}}');">
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                            <b>
+                                <p class="sans m-0">{{$product->name}}</p>
+                            </b>
+                            <p class="m-0" style="font-family: Baumans;">${{$product->price}}</p>
+                        </div>
+                        <div class="d-flex justify-content-evenly mt-3">
+                            <small>
+                                <a href="" class="parent">
+                                    <i class="fa fa-angles-right text-warning p-2 border border-warning rounded-circle"> <span class="sans hidden">View details</span></i>
+                                </a>
+                            </small>
+                            <small>
+                                <a class="parent" style="cursor: pointer;">
+                                    <i onclick="addToCart('{{$product->id}}')" class="fa fa-cart-plus text-danger p-2 border border-danger rounded-circle"> <span class="sans hidden">Add to cart</span></i>
+                                </a>
+                            </small>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                {!! $pages !!}
+            </div>
         </section>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    function goToCartPage() {
+        $.ajax({
+            type: "POST",
+            url: "/cart",
+            data: {
+                "cart": getCartItems()
+            },
+            success: function(result) {
+                clearCart();
+                window.location.href = "/cart";
+            },
+            error: function(response) {
+                console.log(response.responseText);
+            }
+
+        })
+    }
+
+    function addToCart(num) {
+        var ary = JSON.parse(localStorage.getItem("items"));
+        if (ary == null) {
+            var itemAry = [num];
+            localStorage.setItem("items", JSON.stringify(itemAry));
+        } else {
+            $con = ary.indexOf(num);
+            if ($con == -1) {
+                ary.push(num);
+                localStorage.setItem("items", JSON.stringify(ary));
+            }
+        }
+        alert("Item added in cart");
+        $("#cart_count").html(getCartItems().length);
+    }
+
+    function getCartItems() {
+        let ary = JSON.parse(localStorage.getItem("items"));
+        return ary;
+    }
+
+    function clearCart() {
+        localStorage.removeItem("items");
+    }
+</script>
 @endsection

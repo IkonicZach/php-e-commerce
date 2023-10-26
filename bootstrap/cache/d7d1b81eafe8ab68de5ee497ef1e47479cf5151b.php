@@ -24,9 +24,11 @@
                 <h5 class="m-0">Browse by</h5>
             </div>
             <ul class="list-group list-group-flush">
+                <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li class="list-group-item">
-                    <a href="#">A category</a>
+                    <a href="#"><?php echo e($cat->name); ?></a>
                 </li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
         </div>
         <section class="col-md-10">
@@ -48,15 +50,23 @@
                             <p class="grid-items-number sans" style="width: 35px; height: 35px; padding: 0.35rem;"><?php echo e($product->id); ?></p>
                             <!-- <small class="grid-items-category">Category</small> -->
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
                             <b>
                                 <p class="sans m-0"><?php echo e($product->name); ?></p>
                             </b>
-                            <p class="sans m-0">$<?php echo e($product->price); ?></p>
+                            <p class="m-0" style="font-family: Baumans;">$<?php echo e($product->price); ?></p>
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
-                            <small><a href="/admin/product/<?php echo e($product->id); ?>/edit"><i onclick="" class="fa fa-edit text-warning p-2 border border-warning rounded"> <span class="sans">Edit</span></i></a></small>
-                            <small><a href="/admin/product/<?php echo e($product->id); ?>/delete"><i class="fa fa-minus-circle text-danger p-2 border border-danger rounded"> <span class="sans fw-normal">Delete</span></i></a></small>
+                        <div class="d-flex justify-content-evenly mt-3">
+                            <small>
+                                <a href="/admin/product/<?php echo e($product->id); ?>/edit" class="parent">
+                                    <i class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                                </a>
+                            </small>
+                            <small>
+                                <a href="/admin/product/<?php echo e($product->id); ?>/delete" class="parent">
+                                    <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
+                                </a>
+                            </small>
                         </div>
                     </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

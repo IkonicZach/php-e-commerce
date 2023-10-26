@@ -24,9 +24,11 @@
                 <h5 class="m-0">Browse by</h5>
             </div>
             <ul class="list-group list-group-flush">
+                @foreach ($cats as $cat)
                 <li class="list-group-item">
-                    <a href="#">A category</a>
+                    <a href="#">{{$cat->name}}</a>
                 </li>
+                @endforeach
             </ul>
         </div>
         <section class="col-md-10">
@@ -46,15 +48,23 @@
                             <p class="grid-items-number sans" style="width: 35px; height: 35px; padding: 0.35rem;">{{$product->id}}</p>
                             <!-- <small class="grid-items-category">Category</small> -->
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
                             <b>
                                 <p class="sans m-0">{{$product->name}}</p>
                             </b>
-                            <p class="sans m-0">${{$product->price}}</p>
+                            <p class="m-0" style="font-family: Baumans;">${{$product->price}}</p>
                         </div>
-                        <div class="d-flex justify-content-between mt-3">
-                            <small><a href="/admin/product/{{$product->id}}/edit"><i onclick="" class="fa fa-edit text-warning p-2 border border-warning rounded"> <span class="sans">Edit</span></i></a></small>
-                            <small><a href="/admin/product/{{$product->id}}/delete"><i class="fa fa-minus-circle text-danger p-2 border border-danger rounded"> <span class="sans fw-normal">Delete</span></i></a></small>
+                        <div class="d-flex justify-content-evenly mt-3">
+                            <small>
+                                <a href="/admin/product/{{$product->id}}/edit" class="parent">
+                                    <i class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                                </a>
+                            </small>
+                            <small>
+                                <a href="/admin/product/{{$product->id}}/delete" class="parent">
+                                    <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
+                                </a>
+                            </small>
                         </div>
                     </div>
                     @endforeach

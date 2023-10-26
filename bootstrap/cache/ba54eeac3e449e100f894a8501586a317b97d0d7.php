@@ -14,15 +14,10 @@
                             <a class="nav-link sans text-white" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sans text-white" href="/admin">Admin Panel</a>
+                            <a class="nav-link sans text-white" onclick="goToCartPage()">Cart<span class="noti-red" id="cart_count">0</span></a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle sans text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                            <ul class="dropdown-menu bg-bluen">
-                                <li><a class="dropdown-item sans text-white" href="#">Action</a></li>
-                                <li><a class="dropdown-item sans text-white" href="#">Another action</a></li>
-                                <li><a class="dropdown-item sans text-white" href="#">Something else here</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link sans text-white" href="/admin">Admin Panel</a>
                         </li>
                     </ul>
                 </div>
