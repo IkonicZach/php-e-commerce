@@ -42,14 +42,27 @@ class Session
         self::add($key, $value);
     }
 
-    public static function flash($key, $value="")
+    public static function flash($key, $value = "")
     {
         if (!empty($value)) {
             self::replace($key, $value);
-        }else{
+        } else {
             echo "
             <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                " .self::get($key) ." <i class='fa fa-check-circle text-success'></i>
+                " . self::get($key) . " <i class='fa fa-check-circle text-success'></i>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+        }
+    }
+
+    public static function errorFlash($key, $value = "")
+    {
+        if (!empty($value)) {
+            self::replace($key, $value);
+        } else {
+            echo "
+            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                " . self::get($key) . " <i class='fa fa-check-circle text-danger'></i>
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
             </div>";
         }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Classes\Session;
 use Philo\Blade\Blade;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use voku\helper\Paginator;

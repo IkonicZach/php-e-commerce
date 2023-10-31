@@ -48,7 +48,7 @@
                         </div>
                         <div class="d-flex justify-content-evenly mt-3">
                             <small>
-                                <a class="parent">
+                                <a href="/product/<?php echo e($product->id); ?>/details" class="parent">
                                     <i class="fa fa-angles-right text-warning p-2 border border-warning rounded-circle"> <span class="sans hidden">View details</span></i>
                                 </a>
                             </small>
@@ -78,12 +78,12 @@
                         </div>
                         <div class="d-flex justify-content-evenly mt-3">
                             <small>
-                                <a href="" class="parent">
+                                <a href="/product/<?php echo e($product->id); ?>/details" class="parent">
                                     <i class="fa fa-angles-right text-warning p-2 border border-warning rounded-circle"> <span class="sans hidden">View details</span></i>
                                 </a>
                             </small>
                             <small>
-                                <a class="parent" style="cursor: pointer;">
+                                <a class="parent">
                                     <i onclick="addToCart('<?php echo e($product->id); ?>')" class="fa fa-cart-plus text-danger p-2 border border-danger rounded-circle"> <span class="sans hidden">Add to cart</span></i>
                                 </a>
                             </small>
@@ -97,52 +97,5 @@
         </section>
     </div>
 </div>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('script'); ?>
-<script>
-    function goToCartPage() {
-        $.ajax({
-            type: "POST",
-            url: "/cart",
-            data: {
-                "cart": getCartItems()
-            },
-            success: function(result) {
-                clearCart();
-                window.location.href = "/cart";
-            },
-            error: function(response) {
-                console.log(response.responseText);
-            }
-
-        })
-    }
-
-    function addToCart(num) {
-        var ary = JSON.parse(localStorage.getItem("items"));
-        if (ary == null) {
-            var itemAry = [num];
-            localStorage.setItem("items", JSON.stringify(itemAry));
-        } else {
-            $con = ary.indexOf(num);
-            if ($con == -1) {
-                ary.push(num);
-                localStorage.setItem("items", JSON.stringify(ary));
-            }
-        }
-        alert("Item added in cart");
-        $("#cart_count").html(getCartItems().length);
-    }
-
-    function getCartItems() {
-        let ary = JSON.parse(localStorage.getItem("items"));
-        return ary;
-    }
-
-    function clearCart() {
-        localStorage.removeItem("items");
-    }
-</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make("layout.master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

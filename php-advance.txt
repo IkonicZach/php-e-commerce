@@ -138,3 +138,40 @@ Optional step - can use APP_ENV = production to only show success message
 46 - build modal for sub category
 47 - create SubCategoryController and functions
 48 - create SubCategory Model
+
+        <?php
+        $i = 1;
+        foreach ($products as $product) : ?>
+            <div class="row g-0 cart-items">
+                <div class="col-md-2 p-2">
+                    <div class="cart-items-image" style="background-image: url('{{$product->image}}');">
+                        <p class="grid-items-number sans" style="width: 35px; height: 35px; padding: 0.35rem;">{{$i}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 p-2 ">
+                    <h6 class="sans border-bottom pb-2">{{$product->name}}</h6>
+                    <p class="sans">{{$product->description}}</p>
+                </div>
+                <div class="col-md-1 cart-items-data justify-content-evenly">
+                    <span style="font-family: Baumans;">${{$product->price}}</span>
+                </div>
+                <div class="col-md-2 sans cart-items-data justify-content-center">
+                    <div class="d-flex align-items-center border-bluen" style=" border-radius: 0.8rem;" id="quantity">
+                        <a href=""><i class="fa fa-minus border-end"></i></a>
+                        <span class="px-2">10</span>
+                        <a href=""><i class="fa fa-plus border-start"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-1 cart-items-data justify-content-evenly">Total</div>
+                <div class="col-md-2 cart-items-data align-self-center">
+                    <small>
+                        <a href="" class="parent">
+                            <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
+                        </a>
+                    </small>
+                </div>
+            </div>
+        <?php
+            $i++;
+        endforeach;
+        ?>

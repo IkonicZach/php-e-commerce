@@ -8,12 +8,7 @@
 @section('title','Admin Home')
 
 @section('content')
-<div class="container" style="margin-top: 90px;">
-    <div class="d-flex">
-        <div class="col-md-3 p-0">
-            @include("layout.admin_sidebar")
-        </div>
-        <div class="col-md-3 p-0"></div>
-    </div>
-</div>
+
+@include('layout.action_wheel')
+
 @endsection

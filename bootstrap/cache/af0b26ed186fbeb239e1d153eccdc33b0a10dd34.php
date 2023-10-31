@@ -1,11 +1,30 @@
+<style>
+    
+
+    .nav-group a {
+        color: #15b2d5 !important;
+    }   
+
+    .dropdown button {
+        color: #15b2d5!important;
+        border-color: #15b2d5!important;
+    }
+
+    .nav-group a span {
+        color: white !important;
+    }
+</style>
+
+
+
 <?php $__env->startSection('title', 'Category Create'); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="d-flex justify-content-end" style="margin-top: 40px;">
+<div class="container d-flex justify-content-end" style="margin-top: 90px;">
     <section class="d-flex w-50 h-100 nav-fix bg-bluen align-items-center" style="z-index: -1;">
         <img class="w-100" style="max-width: 100%; height: auto;" src="https://staticeurobiz.europeanchamber.com.cn/wp-content/uploads/2019/02/China’s-New-E-commerce-Law-Good-or-Bad-News-for-Business-01.png" alt="error">
     </section>
-    <section class="w-50 p-5">
+    <section class="w-50 ps-5">
         <?php echo $__env->make("layout.horizontal_sidebar", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <!--  Form start -->
         <form action="<?php URL_ROOT . '/admin/category/create' ?>" method="post" class="container px-5 py-3 border d-inline-block" enctype="multipart/form-data">
@@ -230,7 +249,7 @@
                 parent_cat_id: parent_cat_id
             },
             success: function(result) {
-                // window.location.href = "/admin/subcategory/create";
+                window.location.href = "/admin/subcategory/create";
                 console.log(result);
             },
             error: function(response) {
