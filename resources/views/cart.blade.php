@@ -41,7 +41,27 @@
         </div>
 
         <div id="tablebody"></div>
-
+        <div class="row border-top g-0 align-items-center">
+            <div class="col-md-7"></div>
+            <div class="col-md-2 p-3" style="opacity: 0;">h</div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 text-center">
+                @if(\App\Classes\Auth::check())
+                <a class="btn-bluen p-2" id="checkOutBtn" onclick="payOut()">Checkout</a>
+                <form action="/payment/stripe" id="stripeForm" method="post" style="display: none;">
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{\App\Classes\Session::get('publishable_key')}}" 
+                    data-name="Virtuat Cart" 
+                    data-email="{{\App\Classes\Auth::user()->email}}"
+                    data-description="Get unlimited access!" 
+                    data-image="{{asset('imgs/vp.png')}}"
+                    data-amount="5000" 
+                    data-locale="auto"></script>
+                </form>
+                @else
+                <a href="/user/login" class="btn-bluen p-2">Checkout</a>
+                @endif
+            </div>
+        </div>
         <!-- <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -156,6 +176,11 @@
                         <div class="col-md-1 cart-items-data justify-content-evenly">${(result.qty * result.price).toFixed(2)}</div>
                         <div class="col-md-2 cart-items-data align-self-center">
                             <small>
+                                <a href="/product/${result.id}/details" class="parent">
+                                    <i class="fa fa-angles-right text-warning p-2 border border-warning rounded-circle"> <span class="sans hidden">View details</span></i>
+                                </a>
+                            </small>
+                            <small>
                                 <a class="parent">
                                     <i onclick="deleteProduct(${result.id})" class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle">
                                         <span class="hidden">Delete</span>
@@ -175,9 +200,6 @@
                     <div class="col-md-1 text-center">
                         <span style="font-family: Baumans;">$${total.toFixed(2)}</span>
                     </div>
-                    <div class="col-md-2 text-center">
-                        <a class="btn-bluen p-2" href="/user/login">Checkout</a>
-                    </div>
                 </div>`;
         $('#tablebody').html(str);
     }
@@ -192,9 +214,12 @@
                 "token": $("#token").val()
             },
             success: function(results) {
-                clearCart();
-                showCartItems();
-                showProducts([]);
+                console.log(results);
+                $('#stripeForm').css('display', 'block');
+                $('#checkOutBtn').css('display', 'none');
+                // clearCart();
+                // showCartItems();
+                // showProducts([]);
             },
             errors: function(response) {
                 console.log(response.responseText);

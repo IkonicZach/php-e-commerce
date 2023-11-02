@@ -32,14 +32,16 @@
             </div>
             <p class="pt-3">{{$product->description}}</p>
 
-            <div class="d-flex">
+            <div class="d-flex" id="details_btns">
                 <a class="">
-                    <i onclick="addToCart('{{$product->id}}')" class="fa fa-cart-plus text-danger p-2 border border-danger"> <span class="sans fw-normal" style="transition: 0.1s !important;">Add to cart</span></i>
+                    <i onclick="addToCart('{{$product->id}}')" class="fa fa-cart-plus text-danger p-2 border border-danger"> <span>Add to cart</span></i>
                 </a>
                 
                 <a class="">
-                    <i onclick="addToCart('{{$product->id}}')" class="fa-solid fa-money-check-dollar text-danger p-2 border border-danger"> <span class="sans fw-normal" style="transition: 0.1s !important;">Buy now</span></i>
+                    <i onclick="addToCart('{{$product->id}}')" class="fa-solid fa-money-check-dollar text-bluen p-2 border-bluen"> <span>Buy now</span></i>
                 </a>
+
+                
             </div>
         </div>
     </div>
