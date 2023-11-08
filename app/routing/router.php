@@ -25,5 +25,4 @@ $router->map("GET", "/product/[i:id]/details", "App\Controllers\IndexController@
 $router->map("POST", "/payment/stripe", "App\Controllers\PaymentController@stripePayment", "Stripe Payment");
 
 // Cart route ends here
-
 new RouteDispatcher($router);

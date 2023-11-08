@@ -87,10 +87,10 @@ class CategoryController extends BaseController
     {
         $con = Category::destroy($id);
         if ($con) {
-            Session::flash("del_success", "Category deleted Successfully!");
+            Session::flash("success", "Category deleted Successfully!");
             Redirect::to("/admin/category/create");
         } else {
-            Session::flash("del_fail", "Category deletion failed! Try again.");
+            Session::flash("error", "Category deletion failed! Try again.");
             Redirect::to("/admin/category/create");
         }
     }
@@ -101,12 +101,13 @@ class CategoryController extends BaseController
 
         if (CSRFToken::checkToken($post->token)) {
             $rules = [
-                "editName" => [
+                "name" => [
                     "required" => true,
                     "unique" => "categories",
                     "minLength" => "4"
                 ]
             ];
+            
             $validator = new ValidateRequest();
             $validator->checkValid($post, $rules);
 
@@ -115,7 +116,7 @@ class CategoryController extends BaseController
                 echo json_encode($validator->getError());
                 exit;
             } else {
-                Category::where("id", $post->id)->update(["name" => $post->editName]);
+                Category::where("id", $post->id)->update(["name" => $post->name]);
                 echo json_encode("Updated successfully!");
                 exit;
             }

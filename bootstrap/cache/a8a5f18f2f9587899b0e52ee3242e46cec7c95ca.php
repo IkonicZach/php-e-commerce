@@ -32,8 +32,8 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="cat_id" class="sans mt-3">Category Name</label>
-                        <select class="form-select" name="cat_id" id="cat_id">
+                        <label for="category_id" class="sans mt-3">Category Name</label>
+                        <select class="form-select" name="category_id" id="category_id">
                             <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <option value="<?php echo e($cat->id); ?>"><?php echo e($cat->name); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

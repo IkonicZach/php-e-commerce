@@ -48,7 +48,8 @@ small a i:hover p {
 .parent:hover .fa-minus-circle {
   padding-right: 4rem !important;
 }
-.parent:hover .fa-cart-plus {
+.parent:hover .fa-cart-plus,
+.parent:hover .fa-money-check-dollar {
   padding-right: 5.5rem !important;
 }
 .parent:hover .fa-angles-right {
@@ -58,6 +59,7 @@ small a i:hover p {
   display: inline;
   width: auto;
   padding-left: 0.5rem;
+  transition: 0s !important;
 }
 /* Buttons */
 .text-bluen {
@@ -155,7 +157,8 @@ a {
   color: white !important;
 }
 .fa-plus:hover,
-.fa-minus:hover, .fa-money-check-dollar:hover {
+.fa-minus:hover,
+.fa-money-check-dollar:hover {
   background-color: #15b2d5 !important;
   color: white !important;
 }
@@ -344,12 +347,20 @@ a {
   max-height: 400px;
   object-fit: contain;
 }
-#details_btns span{
+#details_btns span {
   font-family: sans-serif !important;
   font-weight: normal;
   transition: 0.1s !important;
 }
 #details_btns i {
   border-radius: 0.5rem !important;
+  margin-top: 10px !important;
+  margin-right: 5px !important;
 }
 /* Detail section ends */
+.d-flex .card {
+  height: fit-content;
+  position: sticky;
+  top: 55px;
+  left: 0px;
+}

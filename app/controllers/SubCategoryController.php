@@ -28,7 +28,7 @@ class SubCategoryController extends BaseController
             } else {
                 $subCat = new SubCategory();
                 $subCat->name = $post->name;
-                $subCat->cat_id = $post->parent_cat_id;
+                $subCat->category_id = $post->parent_category_id;
 
                 if ($subCat->save()) {
                     echo "Successful";
@@ -63,6 +63,7 @@ class SubCategoryController extends BaseController
             } else {
                 SubCategory::where("id", $post->id)->update(["name" => $post->name]);
                 echo "Successfully updated";
+                exit;
             }
         } else {
             header('HTTP/1.1 422 Token Error', true, 422);
@@ -75,11 +76,11 @@ class SubCategoryController extends BaseController
     {
         $con = SubCategory::destroy($id);
         if ($con) {
-            Session::flash("del_success", "Sub-category deleted Successfully!");
+            Session::flash("success", "Sub-category deleted Successfully!");
             Redirect::to("/admin/category/create");
         } else {
-            Session::flash("del_fail", "Sub-category deletion failed! Try again.");
-            Redirect::to("/admin/category/create");
+            Session::flash("fail", "Sub-category deletion failed! Try again.");
+            // Redirect::to("/admin/category/create");
         }
     }
 }

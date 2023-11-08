@@ -38,7 +38,7 @@ class ProductController extends BaseController
         if (CSRFToken::checkToken($post->token)) {
             $rules = [
                 "name" => ["required" => true, "minLength" => 4, "maxLength" => 30, "unique" => "products"],
-                "description" => ["required" => true, "minLength" => 10, "maxLength" => 1000, "unique" => "products"]
+                "description" => ["required" => true, "minLength" => 10, "maxLength" => 1500, "unique" => "products"]
             ];
 
             $validator = new ValidateRequest();
@@ -57,7 +57,7 @@ class ProductController extends BaseController
                         $product = new Product();
                         $product->name = $post->name;
                         $product->price = $post->price;
-                        $product->cat_id = $post->cat_id;
+                        $product->category_id = $post->category_id;
                         $product->sub_cat_id = $post->sub_cat_id;
                         $product->description = $post->description;
                         $product->image = $path;
@@ -147,7 +147,7 @@ class ProductController extends BaseController
                 $product = Product::where('id', $id)->first();
                 $product->name = $post->name;
                 $product->price = $post->price;
-                $product->cat_id = $post->cat_id;
+                $product->category_id = $post->category_id;
                 $product->sub_cat_id = $post->sub_cat_id;
                 $product->description = $post->description;
                 $product->image = $fPath;
@@ -184,4 +184,14 @@ class ProductController extends BaseController
             Redirect::to("/admin/product/home");
         }
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $products = Product::where('name', 'like', "%$search%")->orWhere('description', 'like', "%$search%")->get();
+
+        return view('search_results', compact('products'));
+    }
+
 }

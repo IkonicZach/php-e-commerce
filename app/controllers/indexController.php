@@ -11,6 +11,8 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\Payment;
 use App\Models\Product;
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 
 class IndexController extends BaseController
 {
@@ -19,9 +21,18 @@ class IndexController extends BaseController
         $count = Product::all()->count();
         $cats = Category::all();
         $featured = Product::where("featured", 1)->get();
-        list($prds, $pages) = paginate(9, $count, new Product());
-        $products = json_decode(json_encode($prds));
-        view("home", compact("featured", "cats", "products", "pages"));
+        $pops = Product::where("popular", 1)->get();
+        $categories = Category::with("products")->get();
+
+        list($prods, $pages) = paginate(9, $count, new Product());
+        $products = json_decode(json_encode($prods));
+        view("home", compact("featured", "cats", "products", "pages", "pops", "categories"));
+    }
+    
+    public function productsByCategory($category_id) 
+    {
+        $category = Category::findOrFail($category_id);
+        $productsByCat = $category->products()->take(3)->get();
     }
 
     public function cart()
@@ -37,7 +48,6 @@ class IndexController extends BaseController
                 array_push($cartProducts, $product);
             }
 
-
             echo json_encode($cartProducts);
 
             exit;
@@ -45,15 +55,11 @@ class IndexController extends BaseController
             echo "Error";
             exit;
         }
-        // Session::replace("cart_item", $post->cart);
-        // echo "Successfully added to cart";
-        // exit;
     }
 
     public function showCart()
     {
         view('cart');
-        // $items = Session::get("cart_item");
     }
 
     public function saveItemstoDatabase($status = "Pending", $extraData = "")

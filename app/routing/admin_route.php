@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Contracts\Routing; 
+use Illuminate\Support\Facades\Route;
 //ADMIN ROUTE
 $router->map("GET", "/admin" , "App\Controllers\AdminController@index", "Admin Home");
 
@@ -10,7 +12,7 @@ $router->map("POST", "/admin/category/create", "App\Controllers\CategoryControll
 
 $router->map("GET", "/admin/category/[i:id]/delete", "App\Controllers\CategoryController@delete", "Category Delete");
 
-$router->map("POST", "/admin/category/[i:id]/update", "App\Controllers\CategoryController@update", "Category Update");
+$router->map("POST", "/admin/category/update", "App\Controllers\CategoryController@update", "Category Update");
 // Category Routes Ends
 
 // Sub-category Routes Starts
@@ -33,5 +35,9 @@ $router->map("GET", "/admin/product/[i:id]/edit", "App\Controllers\ProductContro
 $router->map("POST", "/admin/product/[i:id]/edit", "App\Controllers\ProductController@update", "Product Update");
 
 $router->map("GET", "/admin/product/[i:id]/delete", "App\Controllers\ProductController@delete", "Product Delete");
+
+// $router->map("GET", "/search", "App\Controllers\ProductController@search", "Search Route");
+
+// Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 
 // Products Routes Ends

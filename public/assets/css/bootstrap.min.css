@@ -6823,10 +6823,11 @@ fieldset:disabled .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 15%;
+  width: 8.5% !important;
   padding: 0;
   color: #fff;
   text-align: center;
+  background-color: black !important;
   background: 0 0;
   border: 0;
   opacity: 0.5;
@@ -6851,11 +6852,11 @@ fieldset:disabled .btn {
 }
 
 .carousel-control-prev {
-  left: 0;
+  left: -5.3rem !important;
 }
 
 .carousel-control-next {
-  right: 0;
+  right: -5.3rem !important;
 }
 
 .carousel-control-next-icon,

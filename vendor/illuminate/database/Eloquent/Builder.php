@@ -1325,4 +1325,5 @@ class Builder
     {
         $this->query = clone $this->query;
     }
+    
 }

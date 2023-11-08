@@ -26,6 +26,18 @@
     </section>
     <section class="w-50 ps-5">
         <?php echo $__env->make("layout.horizontal_sidebar", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php if(\App\Classes\Session::has("success")): ?>
+            <?php echo e(\App\Classes\Session::flash("success")); ?>
+
+            <?php echo e(\App\Classes\Session::remove("success")); ?>
+
+        <?php endif; ?>
+        <?php if(\App\Classes\Session::has("error")): ?>
+            <?php echo e(\App\Classes\Session::errorFlash("error")); ?>
+
+            <?php echo e(\App\Classes\Session::remove("error")); ?>
+
+        <?php endif; ?>
         <!--  Form start -->
         <form action="<?php URL_ROOT . '/admin/category/create' ?>" method="post" class="container px-5 py-3 border d-inline-block" enctype="multipart/form-data">
             <?php echo $__env->make("layout.report_messages", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -49,13 +61,13 @@
                 <a href="/admin/category/all" class="sans"><?php echo e($cat->name); ?></a>
                 <span>
                     <small>
-                        <a href="#" class="parent">
+                        <a class="parent">
                             <i onclick="showSubCatModal('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-plus text-bluen p-2 border-bluen rounded-circle"><span class="hidden">Sub-categories</span></i>
                         </a>
                     </small>
                     <small>
-                        <a href="#" class="parent">
-                            <i onclick="fun('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                        <a class="parent">
+                            <i onclick="fun('<?php echo e($cat->name); ?>','<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
                         </a>
                     </small>
                     <small>
@@ -79,12 +91,12 @@
                 <a href="/admin/category/all" class="sans"><?php echo e($cat->name); ?></a>
                 <span>
                     <small>
-                        <a href="#" class="parent">
-                            <i onclick="fun('<?php echo e($cat->name); ?>', '<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
+                        <a class="parent">
+                            <i onclick="subCatEdit('<?php echo e($cat->name); ?>','<?php echo e($cat->id); ?>')" class="fa fa-edit text-warning p-2 border border-warning rounded-circle"><span class="hidden">Edit</span></i>
                         </a>
                     </small>
                     <small>
-                        <a href="/admin/category/<?php echo e($cat->id); ?>/delete" class="parent">
+                        <a href="/admin/subcategory/<?php echo e($cat->id); ?>/delete" class="parent">
                             <i class="fa fa-minus-circle text-danger p-2 border border-danger rounded-circle"><span class="hidden">Delete</span></i>
                         </a>
                     </small>
@@ -115,10 +127,10 @@
                         <label for="editName" class="sans mt-3">Category name</label>
                         <input type="text" id="editName" class="form-control sans mb-3" placeholder="Enter category name">
 
-                        <input type="hidden" name="editToken" id="editToken" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
-                        <input type="hidden" name="editId" id="editId">
+                        <input type="hidden" id="editToken" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+                        <input type="hidden" id="editId">
 
-                        <button onclick="startEdit(event)" class="btn btn-bluen float-end sans" type="submit" name="submit">Confirm changes</button>
+                        <button onclick="startEdit(event)" class="btn btn-bluen float-end sans" type="submit">Confirm changes</button>
                     </div>
                 </form>
                 <!-- Edit form ends here -->
@@ -148,7 +160,7 @@
                         <label for="sub_cat_name" class="sans mt-3">Sub-category name</label>
                         <input type="text" id="sub_cat_name" class="form-control sans mb-3" name="subCatName" placeholder="Enter category name">
 
-                        <input type="hidden" name="" id="parent_cat_id">
+                        <input type="hidden" name="" id="parent_category_id">
                         <input type="hidden" name="" id="sub_cat_token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
 
                         <button onclick="createSubCat(event)" class="btn btn-bluen float-end sans" type="submit" name="submit">Create</button>
@@ -175,7 +187,7 @@
                 <!-- Edit form starts here -->
                 <form class="container px-5 py-3 table-bordered rounded-bottom d-inline-block">
                     <div class="form-group">
-                        <label for="editName" class="sans mt-3">Category name</label>
+                        <label for="subCatEditName" class="sans mt-3">Category name</label>
                         <input type="text" id="subCatEditName" class="form-control sans mb-3" placeholder="Enter sub-category name">
 
                         <input type="hidden" name="subCatEditToken" id="subCatEditToken" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
@@ -207,11 +219,11 @@
         token = $("#editToken").val();
         id = $("#editId").val();
 
-        // console.log("Name: " + name + " Token: " + token + " ID: " + id);
         $("#CatEditModel").modal("hide");
+        // alert("Name: " + name + " Token: " + token + " ID: " + id);
         $.ajax({
             type: "POST",
-            url: "/admin/category/" + id + "/update",
+            url: "/admin/category/update",
             data: {
                 name: name,
                 token: token,
@@ -222,15 +234,15 @@
             },
             error: function(response) {
                 var str = "";
-                var response = (JSON.parse(response.responseText));
-                alert(response.name);
+                var rsp = (JSON.parse(response.responseText));
+                alert(rsp.name);
             }
         });
     }
 
     function showSubCatModal(name, id) {
         $("#parent_cat_name").val(name);
-        $("#parent_cat_id").val(id);
+        $("#parent_category_id").val(id);
         $("#SubCatCreateModel").modal("show");
     }
 
@@ -238,7 +250,7 @@
         e.preventDefault();
         var name = $("#sub_cat_name").val();
         var token = $("#sub_cat_token").val();
-        var parent_cat_id = $("#parent_cat_id").val();
+        var parent_category_id = $("#parent_category_id").val();
         $("#SubCatCreateModel").modal("hide");
         $.ajax({
             type: "POST",
@@ -246,7 +258,7 @@
             data: {
                 name: name,
                 token: token,
-                parent_cat_id: parent_cat_id
+                parent_category_id: parent_category_id
             },
             success: function(result) {
                 window.location.href = "/admin/subcategory/create";
@@ -280,8 +292,8 @@
             },
             error: function(response) {
                 var str = "";
-                var response = (JSON.parse(response.responseText));
-                alert(response.name);
+                var resp = (JSON.parse(response.responseText));
+                alert(resp.name);
             }
         });
     }

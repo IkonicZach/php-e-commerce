@@ -8,6 +8,10 @@ use Carbon\Carbon;
 
 class Product extends Model
 {
+    protected $table = 'products';
+
+    protected $fillable = ['name', 'description', 'price'];
+
     public function genPaginate($limit)
     {
         $categories = [];
@@ -19,7 +23,7 @@ class Product extends Model
                 "id" => $cat->id,
                 "name" => $cat->name,
                 "price" => $cat->price,
-                "cat_id" => $cat->cat_id,
+                "category_id" => $cat->category_id,
                 "sub_cat_id" => $cat->sub_cat_id,
                 "image" => $cat->image,
                 "description" => $cat->description,
@@ -27,5 +31,10 @@ class Product extends Model
             ]);
         }
         return $categories;
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

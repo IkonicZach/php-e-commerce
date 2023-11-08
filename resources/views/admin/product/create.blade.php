@@ -32,8 +32,8 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="cat_id" class="sans mt-3">Category Name</label>
-                        <select class="form-select" name="cat_id" id="cat_id">
+                        <label for="category_id" class="sans mt-3">Category Name</label>
+                        <select class="form-select" name="category_id" id="category_id">
                             @foreach($cats as $cat)
                             <option value="{{$cat->id}}">{{$cat->name}}</option>
                             @endforeach
